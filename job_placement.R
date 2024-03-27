@@ -1,5 +1,7 @@
 # Load required libraries
 
+# git commit
+
 
 library(shiny)
 library(DT)
@@ -9,7 +11,7 @@ library(dplyr)
 base_folder <- "C:/Users/nsnai/OneDrive/Documents/Rshiny_Jobplacements/"
 input_folder <- paste0(base_folder,"input_files/")
 
-base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/"
+#base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/"
 
 filename <- "job_placement.csv"
 
