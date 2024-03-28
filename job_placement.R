@@ -28,7 +28,7 @@ full_path <- file.path(input_folder, filename)
 # Read the CSV file
 data <- read.csv(full_path)
 
-
+print("data loaded")
 
 # Define UI
 ui <- fluidPage(
