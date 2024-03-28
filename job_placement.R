@@ -8,10 +8,10 @@ library(DT)
 library(ggplot2)
 library(dplyr)
 
-base_folder <- "C:/Users/nsnai/OneDrive/Documents/Rshiny_Jobplacements/"
-input_folder <- paste0(base_folder,"input_files/")
+#base_folder <- "C:/Users/nsnai/OneDrive/Documents/Rshiny_Jobplacements/"
 
-#base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/"
+base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/"
+input_folder <- paste0(base_folder,"input_files/")
 
 filename <- "job_placement.csv"
 
