@@ -4,7 +4,7 @@ library(shiny)
 library(DT)
 library(ggplot2)
 library(dplyr)
-
+library(rsconnect)
 
 if (Sys.getenv("GITHUB_ACTIONS") == "true") {
   # Running on GitHub Pages
@@ -160,3 +160,4 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
+# 

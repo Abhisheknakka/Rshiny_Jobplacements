@@ -1,0 +1,12 @@
+name: Rshiny_Jobplacements
+title: Rshiny_Jobplacements
+username: abhisheknakka
+account: abhisheknakka
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11615338
+bundleId: 8430675
+url: https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
