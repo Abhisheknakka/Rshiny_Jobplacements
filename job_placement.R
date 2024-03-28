@@ -8,24 +8,28 @@ library(DT)
 library(ggplot2)
 library(dplyr)
 
-#base_folder <- "C:/Users/nsnai/OneDrive/Documents/Rshiny_Jobplacements/"
 
-base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/"
-input_folder <- paste0(base_folder,"input_files/")
-
-filename <- "job_placement.csv"
-#data <- read.csv(paste0(base_folder,filename))
-
-
-input_folder <- "input_files"
+if (Sys.getenv("GITHUB_ACTIONS") == "true") {
+  # Running on GitHub Pages
+  base_folder <- ""
+  input_folder <- "input_files"
+} else {
+  # Running locally
+  base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/Rshiny_Jobplacements/"
+  input_folder <- paste0(base_folder, "input_files")
+}
 
 # Define the filename
 filename <- "job_placement.csv"
 
-# Construct the full path to the CSV file using the input folder
+# Construct the full path to the CSV file
 full_path <- file.path(input_folder, filename)
 
+# Read the CSV file
 data <- read.csv(full_path)
+
+
+
 # Define UI
 ui <- fluidPage(
   titlePanel("Job Placement Data Explorer"),
