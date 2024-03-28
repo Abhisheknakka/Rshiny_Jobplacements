@@ -1,8 +1,5 @@
 # Load required libraries
 
-# git commit
-
-
 library(shiny)
 library(DT)
 library(ggplot2)
