@@ -14,9 +14,18 @@ base_folder <- "D:/Trent University/R ONLINE LECTURERS/Assignments/TERM PROJECT/
 input_folder <- paste0(base_folder,"input_files/")
 
 filename <- "job_placement.csv"
+#data <- read.csv(paste0(base_folder,filename))
 
-data <- read.csv(paste0(base_folder,filename))
 
+input_folder <- "input_files"
+
+# Define the filename
+filename <- "job_placement.csv"
+
+# Construct the full path to the CSV file using the input folder
+full_path <- file.path(input_folder, filename)
+
+data <- read.csv(full_path)
 # Define UI
 ui <- fluidPage(
   titlePanel("Job Placement Data Explorer"),
