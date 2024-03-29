@@ -53,8 +53,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       class = "sidebar", # Add class to the sidebar panel
+      selectInput("college", "Select College:", c("All", unique(data$college_name))),
       selectInput("gender", "Select Gender:", c("All", unique(data$gender))),
-      selectInput("degree", "Select Degree:", c("All", unique(data$degree))),
       selectInput("stream", "Select Stream:", c("All", unique(data$stream))),
       sliderInput("age", "Select Age Range:", min = min(data$age), max = max(data$age), value = c(min(data$age), max(data$age))),
       sliderInput("salary", "Select Salary Range:", min = min(data$salary), max = max(data$salary), value = c(min(data$salary), max(data$salary))),
@@ -65,6 +65,7 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", DTOutput("table")),
         tabPanel("Plots",
+                 plotOutput("barplot_college_placed"),
                  plotOutput("pie_chart_placed"),
                  plotOutput("pie_chart_unplaced"),
                  plotOutput("histogram"),
@@ -84,11 +85,11 @@ server <- function(input, output,session) {
   # Filter data based on user input
   filtered_data <- reactive({
     filtered <- data
+    if (input$college != "All") {
+      filtered <- filtered[filtered$college == input$college, ]
+    }
     if (input$gender != "All") {
       filtered <- filtered[filtered$gender == input$gender, ]
-    }
-    if (input$degree != "All") {
-      filtered <- filtered[filtered$degree == input$degree, ]
     }
     if (input$stream != "All") {
       filtered <- filtered[filtered$stream == input$stream, ]
@@ -104,6 +105,36 @@ server <- function(input, output,session) {
   # Render the filtered data table
   output$table <- renderDT({
     datatable(filtered_data())
+  })
+  
+  
+  # Bar plot for Count of Placed Students by College
+  output$barplot_college_placed <- renderPlot({
+    req(nrow(filtered_data()) > 0)
+    
+    # Filter data for placed students
+    placed_data <- filtered_data()[filtered_data()$placement_status == "Placed", ]
+    
+    # Create a table of counts of placed students by college
+    college_counts <- table(placed_data$college_name)
+    
+    # Convert the table to data frame
+    college_counts_df <- as.data.frame(college_counts)
+    colnames(college_counts_df) <- c("College", "Placed Count")
+    
+    # Sort the data frame by placed count
+    college_counts_df <- college_counts_df[order(college_counts_df$`Placed Count`, decreasing = TRUE), ]
+    
+    # Create the bar plot
+    ggplot(college_counts_df, aes(x = reorder(College, `Placed Count`), y = `Placed Count`)) +
+      geom_bar(stat = "identity", fill = "skyblue") +
+      labs(title = "Count of Placed Students by College", x = "College", y = "Placed Count") +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  })
+  
+  # Render the bar plot
+  output$plots <- renderPlot({
+    plot(output$barplot_college_placed)
   })
   
   # Pie chart for Stream by Placement Status (Placed)
@@ -165,8 +196,8 @@ server <- function(input, output,session) {
   
   # Reset filters
   observeEvent(input$reset, {
+    updateSelectInput(session, "college", selected = "All")
     updateSelectInput(session, "gender", selected = "All")
-    updateSelectInput(session, "degree", selected = "All")
     updateSelectInput(session, "stream", selected = "All")
     updateSliderInput(session, "age", value = c(min(data$age), max(data$age)))
     updateSliderInput(session, "salary", value = c(min(data$salary), max(data$salary)))
