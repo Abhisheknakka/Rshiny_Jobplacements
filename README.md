@@ -1,16 +1,69 @@
-# Rshiny_Jobplacements
+**Rshiny_Jobplacements: Job Placement Data Explorer of certain Colleges**
 
-*Job Placement Data Explorer*
+Welcome to the Job Placement Data Explorer! This interactive Shiny app allows you to explore job placement data through various filters and visualizations. Below are instructions on how to navigate and use the app effectively:
 
-This Shiny app allows you to explore job placement data interactively. You can filter the data based on various criteria and visualize it using different plots. Follow the instructions below to run the app:
+#### Instructions:
 
-[Instructions:]{.underline}
+**1. Access the App:**
 
-1.  **Access the App:** Click on the following link to access the Shiny app: <https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/>
-2.  **Wait for Loading:** After clicking the link, the Shiny app will load in your web browser. It may take a few moments depending on your internet connection and server load.
-3.  **Explore the Data:** Once the app is loaded, you'll see the title "Job Placement Data Explorer" at the top. The interface provides options to explore the job placement data.
-4.  **Use Filters:** On the left sidebar, you'll find filter options such as Gender, Degree, Stream, Age Range, Salary Range, and Placement Status. Use these to customize the displayed data.
-5.  **View Tables and Plots:** The main panel displays tabs such as "Table", "Plots", and "Summary". Switch between these tabs to view data tables, visualizations, and summary statistics.
-6.  **Reset Filters:** Click the "Reset Filters" button at the bottom of the sidebar to reset filters and view the original unfiltered data.
-7.  **Explore Summary Statistics**: The "Summary" tab provides summary statistics of the filtered data, including mean, median, minimum, maximum, and quartiles for numerical variables.
-8.  **Close the App:** Once done, simply close the web browser tab to exit the Shiny app.
+-   Click on the following link to access the Shiny app: [Job Placement Data Explorer](https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/)
+
+-   Wait for the app to load in your web browser.
+
+**2. Explore the Data:**
+
+-   Once loaded, you'll see the title "Job Placement Data Explorer" at the top.
+
+-   Use the options provided to filter and visualize the job placement data.
+
+**3. Inputs:**
+
+-   **College (Dropdown with Multiple Selection):** Select one or multiple colleges.
+
+-   **Gender (Dropdown):** Filter the data based on gender.
+
+-   **Stream (Dropdown):** Filter the data based on the stream of study.
+
+-   **Age Range (Slider):** Specify a range of ages to filter the data.
+
+-   **Salary Range (Slider):** Specify a range of salaries to filter the data.
+
+-   **Placement Status (Dropdown):** Filter the data based on placement status.
+
+-   **Reset Filters (Button):** Click to reset all filters to their default values.
+
+**4. Selection:**
+
+-   **Dropdowns:** Click on the dropdown menu and select the desired option.
+
+-   **Slider:** Drag the handles of the slider to adjust the range.
+
+-   **Multiple Selection Dropdown (College):** Hold "Ctrl" (or "Cmd" on Mac) while clicking to select multiple colleges.
+
+**5. Panels:**
+
+-   **Table Panel:** Displays the filtered data in a table format.
+
+-   **Plots Panel:** Contains various visualizations based on the filtered data.
+
+-   **Summary Panel:** Displays summary statistics of the filtered data.
+
+**6. Use Filters:**
+
+-   Utilize filter options on the left sidebar to customize the displayed data.
+
+**7. View Tables and Plots:**
+
+-   Switch between tabs ("Table", "Plots", "Summary") to view data tables, visualizations, and summary statistics.
+
+**8. Reset Filters:**
+
+-   Click the "Reset Filters" button to revert to the original unfiltered data.
+
+**9. Explore Summary Statistics:**
+
+-   Access summary statistics on the "Summary" tab, including mean, median, minimum, maximum, and quartiles.
+
+**10. Close the App:**
+
+-   Simply close the web browser tab to exit the Shiny app.

@@ -5,7 +5,7 @@ account: abhisheknakka
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11615338
-bundleId: 8432630
+bundleId: 8433271
 url: https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/
 version: 1
 asMultiple: FALSE
