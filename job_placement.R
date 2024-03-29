@@ -30,8 +30,27 @@ print("data loaded")
 # Define UI
 ui <- fluidPage(
   titlePanel("Job Placement Data Explorer"),
+  tags$head(
+    tags$style(
+      HTML(
+        "
+        .sidebar {
+          position: fixed;
+          top: 50px;
+          left: 0;
+          bottom: 0;
+          width: 250px; /* Adjust width as needed */
+          overflow-y: auto; /* Enable scrolling if content exceeds the height */
+          background-color: #f8f9fa; /* Background color of the sidebar */
+          padding: 20px;
+        }
+        "
+      )
+    )
+  ),
   sidebarLayout(
     sidebarPanel(
+      class = "sidebar", # Add class to the sidebar panel
       selectInput("gender", "Select Gender:", c("All", unique(data$gender))),
       selectInput("degree", "Select Degree:", c("All", unique(data$degree))),
       selectInput("stream", "Select Stream:", c("All", unique(data$stream))),
@@ -44,14 +63,12 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", DTOutput("table")),
         tabPanel("Plots",
+                 plotOutput("pie_chart_placed"),
+                 plotOutput("pie_chart_unplaced"),
                  plotOutput("histogram"),
                  plotOutput("scatterplot"),
-                 plotOutput("boxplot_gpa"),
-                 plotOutput("boxplot_salary"),
-                 plotOutput("barplot_gender"),
-                 plotOutput("barplot_degree"),
-                 plotOutput("barplot_stream"),
-                 plotOutput("barplot_experience")
+                 plotOutput("line_chart"),
+                 plotOutput("boxplot_salary")
         ),
         tabPanel("Summary", verbatimTextOutput("summary"))
       )
@@ -60,7 +77,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output,session) {
   
   # Filter data based on user input
   filtered_data <- reactive({
@@ -87,9 +104,32 @@ server <- function(input, output) {
     datatable(filtered_data())
   })
   
+  # Pie chart for Stream by Placement Status (Placed)
+  output$pie_chart_placed <- renderPlot({
+    req(nrow(filtered_data()) > 0)
+    stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Placed", "stream"])
+    if (sum(stream_counts) > 0) {
+      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Placed)")
+    } else {
+      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+    }
+  })
+  
+  # Pie chart for Stream by Placement Status (Unplaced)
+  output$pie_chart_unplaced <- renderPlot({
+    req(nrow(filtered_data()) > 0)
+    stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Not Placed", "stream"])
+    if (sum(stream_counts) > 0) {
+      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Unplaced)")
+    } else {
+      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+    }
+  })
+  
+  
   # Render histogram
   output$histogram <- renderPlot({
-    ggplot(filtered_data(), aes(x = salary)) + geom_histogram(fill = "skyblue", color = "black") +
+    ggplot(filtered_data(), aes(x = salary)) + geom_histogram(fill = "maroon", color = "black") +
       labs(title = "Salary Distribution", x = "Salary", y = "Frequency")
   })
   
@@ -99,48 +139,22 @@ server <- function(input, output) {
       labs(title = "GPA vs Salary", x = "GPA", y = "Salary", color = "Placement Status")
   })
   
-  # Boxplot for GPA
-  output$boxplot_gpa <- renderPlot({
-    ggplot(filtered_data(), aes(x = placement_status, y = gpa, fill = placement_status)) +
-      geom_boxplot() +
-      labs(title = "Boxplot of GPA by Placement Status", x = "Placement Status", y = "GPA")
+  # Line chart: GPA vs Salary
+  output$line_chart <- renderPlot({
+    ggplot(filtered_data(), aes(x = gpa, y = salary)) +
+      geom_point() +
+      geom_smooth(method = "lm", se = FALSE, color = "blue") +
+      labs(title = "Scatter Plot with  Line: GPA vs Salary", x = "GPA", y = "Salary")
   })
   
-  # Boxplot for Salary
+
+  # Boxplot for Salary by Placement Status
   output$boxplot_salary <- renderPlot({
     ggplot(filtered_data(), aes(x = placement_status, y = salary, fill = placement_status)) +
       geom_boxplot() +
       labs(title = "Boxplot of Salary by Placement Status", x = "Placement Status", y = "Salary")
   })
   
-  # Barplot for Gender
-  output$barplot_gender <- renderPlot({
-    ggplot(filtered_data(), aes(x = gender, fill = placement_status)) +
-      geom_bar(position = "dodge") +
-      labs(title = "Barplot of Gender by Placement Status", x = "Gender", y = "Count", fill = "Placement Status")
-  })
-  
-  # Barplot for Degree
-  output$barplot_degree <- renderPlot({
-    ggplot(filtered_data(), aes(x = degree, fill = placement_status)) +
-      geom_bar(position = "dodge") +
-      labs(title = "Barplot of Degree by Placement Status", x = "Degree", y = "Count", fill = "Placement Status")
-  })
-  
-  # Barplot for Stream
-  output$barplot_stream <- renderPlot({
-    ggplot(filtered_data(), aes(x = stream, fill = placement_status)) +
-      geom_bar(position = "dodge") +
-      labs(title = "Barplot of Stream by Placement Status", x = "Stream", y = "Count", fill = "Placement Status") +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  })
-  
-  # Barplot for Experience
-  output$barplot_experience <- renderPlot({
-    ggplot(filtered_data(), aes(x = years_of_experience, fill = placement_status)) +
-      geom_bar(position = "dodge") +
-      labs(title = "Barplot of Years of Experience by Placement Status", x = "Years of Experience", y = "Count", fill = "Placement Status")
-  })
   
   # Render summary statistics
   output$summary <- renderPrint({
@@ -160,3 +174,4 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
+
