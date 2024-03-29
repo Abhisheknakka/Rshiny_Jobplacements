@@ -6,7 +6,7 @@ This Shiny app allows you to explore job placement data interactively. You can f
 
 [Instructions:]{.underline}
 
-1.  **Access the App:** Click on the following link to access the Shiny app: [https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/](#0){.uri}
+1.  **Access the App:** Click on the following link to access the Shiny app: <https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/>
 2.  **Wait for Loading:** After clicking the link, the Shiny app will load in your web browser. It may take a few moments depending on your internet connection and server load.
 3.  **Explore the Data:** Once the app is loaded, you'll see the title "Job Placement Data Explorer" at the top. The interface provides options to explore the job placement data.
 4.  **Use Filters:** On the left sidebar, you'll find filter options such as Gender, Degree, Stream, Age Range, Salary Range, and Placement Status. Use these to customize the displayed data.
