@@ -53,8 +53,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       class = "sidebar", # Add class to the sidebar panel
+      selectInput("college", "Select College:", c("All", unique(data$college_name)), selected = "All", multiple = TRUE),
       selectInput("gender", "Select Gender:", c("All", unique(data$gender))),
-      selectInput("degree", "Select Degree:", c("All", unique(data$degree))),
       selectInput("stream", "Select Stream:", c("All", unique(data$stream))),
       sliderInput("age", "Select Age Range:", min = min(data$age), max = max(data$age), value = c(min(data$age), max(data$age))),
       sliderInput("salary", "Select Salary Range:", min = min(data$salary), max = max(data$salary), value = c(min(data$salary), max(data$salary))),
@@ -65,6 +65,7 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", DTOutput("table")),
         tabPanel("Plots",
+                 plotOutput("barplot_college_placed"),
                  plotOutput("pie_chart_placed"),
                  plotOutput("pie_chart_unplaced"),
                  plotOutput("histogram"),
@@ -87,9 +88,10 @@ server <- function(input, output,session) {
     if (input$gender != "All") {
       filtered <- filtered[filtered$gender == input$gender, ]
     }
-    if (input$degree != "All") {
-      filtered <- filtered[filtered$degree == input$degree, ]
+    if (!"All" %in% input$college) {
+      filtered <- filtered[filtered$college_name %in% input$college, ]
     }
+    
     if (input$stream != "All") {
       filtered <- filtered[filtered$stream == input$stream, ]
     }
@@ -104,6 +106,62 @@ server <- function(input, output,session) {
   # Render the filtered data table
   output$table <- renderDT({
     datatable(filtered_data())
+  })
+  
+  # Bar plot for Count of Placed Students by College
+  output$barplot_college_placed <- renderPlot({
+    req(nrow(filtered_data()) > 0)
+    
+    # Filter data based on input parameters
+    filtered <- filtered_data()
+    if ("All" %in% input$college) {
+      # If "All" is selected, include all colleges
+      filtered <- filtered
+    } else {
+      # Only include selected colleges
+      filtered <- filtered[filtered$college_name %in% input$college, ]
+    }
+    if (input$gender != "All") {
+      filtered <- filtered[filtered$gender == input$gender, ]
+    }
+    if (input$stream != "All") {
+      filtered <- filtered[filtered$stream == input$stream, ]
+    }
+    if (input$placement_status != "All") {
+      filtered <- filtered[filtered$placement_status == input$placement_status, ]
+    }
+    filtered <- filtered[filtered$age >= input$age[1] & filtered$age <= input$age[2], ]
+    filtered <- filtered[filtered$salary >= input$salary[1] & filtered$salary <= input$salary[2], ]
+    
+    # Filter data for placed students
+    placed_data <- filtered[filtered$placement_status == "Placed", ]
+    
+    # If there's no placed data, show "No Data Available"
+    if (nrow(placed_data) == 0) {
+      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+    } else {
+      # Create a table of counts of placed students by college
+      college_counts <- table(placed_data$college_name)
+      
+      # Convert the table to data frame
+      college_counts_df <- as.data.frame(college_counts)
+      colnames(college_counts_df) <- c("College", "Placed Count")
+      
+      # Sort the data frame by placed count
+      college_counts_df <- college_counts_df[order(college_counts_df$`Placed Count`, decreasing = TRUE), ]
+      
+      # Create the bar plot with count labels
+      ggplot(college_counts_df, aes(x = reorder(College, `Placed Count`), y = `Placed Count`)) +
+        geom_bar(stat = "identity", fill = "skyblue") +
+        geom_text(aes(label = `Placed Count`), vjust = -0.5) +  # Add count labels above the bars
+        labs(title = "Count of Placed Students by College", x = "College", y = "Placed Count") +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    }
+  })
+  
+  # Render the bar plot
+  output$plots <- renderPlot({
+    plot(output$barplot_college_placed)
   })
   
   # Pie chart for Stream by Placement Status (Placed)
@@ -149,7 +207,7 @@ server <- function(input, output,session) {
       labs(title = "Scatter Plot with  Line: GPA vs Salary", x = "GPA", y = "Salary")
   })
   
-
+  
   # Boxplot for Salary by Placement Status
   output$boxplot_salary <- renderPlot({
     ggplot(filtered_data(), aes(x = placement_status, y = salary, fill = placement_status)) +
@@ -165,8 +223,8 @@ server <- function(input, output,session) {
   
   # Reset filters
   observeEvent(input$reset, {
+    updateSelectInput(session, "college", selected = "All")
     updateSelectInput(session, "gender", selected = "All")
-    updateSelectInput(session, "degree", selected = "All")
     updateSelectInput(session, "stream", selected = "All")
     updateSliderInput(session, "age", value = c(min(data$age), max(data$age)))
     updateSliderInput(session, "salary", value = c(min(data$salary), max(data$salary)))
