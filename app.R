@@ -5,6 +5,8 @@ library(DT)
 library(ggplot2)
 library(dplyr)
 library(rsconnect)
+library(RColorBrewer)
+
 
 
 # Define function to check if running on shinyapps.io
@@ -68,7 +70,8 @@ ui <- fluidPage(
                  plotOutput("barplot_college_placed"),
                  plotOutput("pie_chart_placed"),
                  plotOutput("pie_chart_unplaced"),
-                 plotOutput("histogram")
+                 plotOutput("histogram"),
+                 plotOutput("heatmap")
                  
         ),
         tabPanel("Summary", verbatimTextOutput("summary"))
@@ -192,6 +195,15 @@ server <- function(input, output,session) {
   })
   
   
+  # Render heatmap
+  output$heatmap <- renderPlot({
+    ggplot(filtered_data(), aes(x = gpa, y = years_of_experience, fill = salary)) +
+      geom_tile() +
+      scale_fill_gradientn(colors = brewer.pal(9, "Oranges"), na.value = "grey90") +
+      labs(title = "Average Salary by GPA and Years of Experience (Heatmap)",
+           x = "GPA", y = "Years of Experience", fill = "Average Salary") +
+      theme_minimal()
+  })
   
   # Render summary statistics
   output$summary <- renderPrint({
