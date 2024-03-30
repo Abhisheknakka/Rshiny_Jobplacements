@@ -164,12 +164,18 @@ server <- function(input, output,session) {
     plot(output$barplot_college_placed)
   })
   
+  library(gridExtra)
+  
+  # Define custom colors for pie slices
+  custom_colors <- c("#FF9999", "#66B2FF", "#99FF99", "#FFCC99", "#FFD700", "#C0C0C0", "#87CEFA", "#FF69B4", "#90EE90", "#FF6347")
+  
   # Pie chart for Stream by Placement Status (Placed)
   output$pie_chart_placed <- renderPlot({
     req(nrow(filtered_data()) > 0)
     stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Placed", "stream"])
     if (sum(stream_counts) > 0) {
-      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Placed)")
+      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), 
+          main = "Pie Chart of Stream (Placed)", col = custom_colors)
     } else {
       plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
     }
@@ -180,11 +186,22 @@ server <- function(input, output,session) {
     req(nrow(filtered_data()) > 0)
     stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Not Placed", "stream"])
     if (sum(stream_counts) > 0) {
-      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Unplaced)")
+      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), 
+          main = "Pie Chart of Stream (Unplaced)", col = custom_colors)
     } else {
       plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
     }
   })
+  
+  # Arrange the plots side by side
+  output$side_by_side_plots <- renderPlot({
+    grid.arrange(
+      output$pie_chart_placed, 
+      output$pie_chart_unplaced, 
+      ncol = 2
+    )
+  })
+  
   
   
   # Render histogram
