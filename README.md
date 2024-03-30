@@ -26,7 +26,7 @@ Welcome to the Job Placement Data Explorer! This interactive Shiny app allows yo
 
 The dataset used in this application is picked from kaggle which contains comprehensive information about Bachelor's degree graduates from various universities in the USA and their placement status. It serves as a valuable resource for understanding the employment outcomes of recent graduates and provides insights into placement trends across different fields of study and universities.
 
-### **Instructions:** 
+### **Instructions to run the App:** 
 
 **1. Access the App:**
 
