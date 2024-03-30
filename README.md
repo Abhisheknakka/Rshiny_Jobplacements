@@ -92,6 +92,54 @@ The dataset used in this application is picked from kaggle which contains compre
 
 -   Simply close the web browser tab to exit the Shiny app.
 
+The Job Placement Data Explorer is a powerful tool designed to provide users with comprehensive insights into the employment outcomes of Bachelor's degree graduates from various universities in the USA. With its user-friendly interface and interactive features, the application offers a range of functionalities to explore and analyze placement trends, compare placement rates among universities, and investigate factors influencing employment success. Below are the key features of the application outlined in detail:
+
+### Filtering Options:
+
+The application offers a variety of filtering options to tailor the dataset according to the user's preferences. Users can filter the data based on the following criteria:
+
+1.  **College Selection:**
+    -   Users can select one or multiple colleges from a dropdown menu. This allows them to focus on specific universities of interest and analyze placement outcomes at the institutional level.
+2.  **Gender Selection:**
+    -   The application enables users to filter the data by gender, allowing for the analysis of placement trends based on gender demographics. Users can select a specific gender or choose "All" to include all genders in the analysis.
+3.  **Field of Study (Stream) Selection:**
+    -   Users have the option to filter the data by the field of study (stream). This feature enables users to explore placement outcomes across different academic disciplines and identify trends within specific fields.
+4.  **Age Range Slider:**
+    -   A slider tool allows users to specify a range of ages, enabling them to filter the data based on the age of graduates. This feature is particularly useful for analyzing placement outcomes within specific age groups.
+5.  **Salary Range Slider:**
+    -   Users can specify a range of salaries using a slider tool. This feature allows users to filter the data based on the salary earned upon placement, facilitating the analysis of salary distributions and trends.
+6.  **Placement Status Selection:**
+    -   Users can filter the data based on the placement status of graduates, choosing between "Placed", "Not Placed", or "All". This feature enables users to compare placement rates and explore factors associated with successful placement.
+
+### Interactive Data Table:
+
+The application features an interactive data table that dynamically updates based on the user's selected filters. The table provides detailed information about the filtered dataset, including individual student records. Users can easily navigate through the table to view specific data points and gain insights into employment outcomes.
+
+### Plots for Data Visualization:
+
+The application offers various plots for visualizing the filtered data, allowing users to explore placement trends and patterns. These include:
+
+1.  **Bar Plot for Count of Placed Students by College:**
+    -   This bar plot visualizes the count of placed students for each selected college, enabling users to compare placement rates among different universities.
+2.  **Pie Charts for Stream (Field of Study) by Placement Status:**
+    -   Separate pie charts illustrate the distribution of placed and unplaced students across different fields of study. These visualizations provide insights into placement rates within specific academic disciplines.
+3.  **Histogram for Salary Distribution:**
+    -   The histogram displays the distribution of salaries earned by graduates upon placement, allowing users to identify common salary ranges and variations.
+4.  **Scatter Plot and Line Chart for GPA vs. Salary:**
+    -   These visualizations plot GPA against salary, providing insights into the relationship between academic performance and earning potential.
+5.  **Boxplot for Salary by Placement Status:**
+    -   The boxplot compares the distribution of salaries between placed and unplaced students, facilitating the analysis of salary distributions based on placement status.
+
+### Summary Statistics:
+
+The application provides summary statistics of the filtered data, including mean, median, minimum, maximum, and quartiles for numerical variables. These statistics offer insights into the overall distribution and central tendencies of the dataset, aiding in data interpretation and analysis.
+
+### Reset Filters Button:
+
+Users can reset all filters to their default values by clicking the "Reset Filters" button. This feature allows for easy exploration of the dataset without manually adjusting each filter, enhancing user experience and efficiency.
+
+In summary, the Job Placement Data Explorer offers a comprehensive suite of features to empower users in exploring and analyzing job placement data effectively. From interactive filtering options to insightful visualizations and summary statistics, the application provides valuable tools for gaining actionable insights into employment outcomes for Bachelor's degree graduates.
+
 ### **Literature Review:**
 
 1.  **"Factors Influencing College Choice: A Literature Review"** (Jones, 2016):
