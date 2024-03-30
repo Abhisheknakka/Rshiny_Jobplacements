@@ -139,7 +139,7 @@ server <- function(input, output,session) {
     
     # If there's no placed data, show "No Data Available"
     if (nrow(placed_data) == 0) {
-      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+      plot(1, type = "n", xlab = "", ylab = "", main = "No students placed with the filters selected")
     } else {
       # Create a table of counts of placed students by college
       college_counts <- table(placed_data$college_name)
@@ -172,7 +172,7 @@ server <- function(input, output,session) {
     if (sum(stream_counts) > 0) {
       pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Placed)")
     } else {
-      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available with the filters you selected")
     }
   })
   
