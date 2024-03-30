@@ -4,6 +4,8 @@ The purpose of the application is to provide students with valuable insights int
 
 Additionally, by showcasing placement trends and statistics, the app assists students in identifying colleges that offer the best opportunities for their chosen fields of study, ultimately aiding in optimizing their career prospects and trajectories.
 
+-   Click on the following link to access the Shiny app: [Job Placement Data Explorer](https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/)
+
 ### **Problems it Addresses:**
 
 1.  **Decision Making:** The application addresses the challenge many students face in selecting the right college and course for their career aspirations. By aggregating and presenting placement statistics for different colleges, it empowers students to compare and evaluate their options effectively, thus facilitating more informed decision-making.
@@ -26,7 +28,7 @@ Welcome to the Job Placement Data Explorer! This interactive Shiny app allows yo
 
 The dataset used in this application is picked from kaggle which contains comprehensive information about Bachelor's degree graduates from various universities in the USA and their placement status. It serves as a valuable resource for understanding the employment outcomes of recent graduates and provides insights into placement trends across different fields of study and universities.
 
-### **Instructions to run the App:** 
+### **Instructions to run the App:**
 
 **1. Access the App:**
 
