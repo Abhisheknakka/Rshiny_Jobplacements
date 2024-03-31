@@ -63,7 +63,6 @@ ui <- fluidPage(
     ),
     mainPanel(
       tabsetPanel(
-        tabPanel("Table", DTOutput("table")),
         tabPanel("Plots",
                  plotlyOutput("barplot_college_placed"),
                  plotlyOutput("pie_chart_placed"),
@@ -71,6 +70,7 @@ ui <- fluidPage(
                  plotlyOutput("histogram"),
                  plotlyOutput("heatmap")
         ),
+        tabPanel("Table", DTOutput("table")),
         tabPanel("Summary", verbatimTextOutput("summary"))
       )
     )
@@ -150,7 +150,7 @@ server <- function(input, output, session) {
       
       # Create the bar plot with count labels
       p <- plot_ly(college_counts_df, x = ~reorder(College, `Placed Count`), y = ~`Placed Count`, type = 'bar', 
-                   text = ~paste('Count: ', `Placed Count`), marker = list(color = 'skyblue')) %>%
+                   text = ~paste(`Placed Count`), marker = list(color = 'skyblue')) %>%
         layout(title = "Count of Placed Students by College", xaxis = list(title = "College"), yaxis = list(title = "Placed Count"))
     }
     p
