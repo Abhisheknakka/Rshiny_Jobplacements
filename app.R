@@ -1,18 +1,17 @@
 # Load required libraries
-
 library(shiny)
 library(DT)
 library(ggplot2)
 library(dplyr)
 library(rsconnect)
 library(RColorBrewer)
-
-
+library(plotly)  # For interactive plots
 
 # Define function to check if running on shinyapps.io
 is_shinyapps <- function() {
   return(!is.null(Sys.getenv("SHINYIO_USER")))
 }
+
 # Define function to get file path based on environment
 get_data_file_path <- function() {
   if (is_shinyapps()) {
@@ -28,8 +27,6 @@ get_data_file_path <- function() {
 
 # Read the CSV file
 data <- read.csv(get_data_file_path())
-
-print("data loaded")
 
 # Define UI
 ui <- fluidPage(
@@ -68,12 +65,11 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Table", DTOutput("table")),
         tabPanel("Plots",
-                 plotOutput("barplot_college_placed"),
-                 plotOutput("pie_chart_placed"),
-                 plotOutput("pie_chart_unplaced"),
-                 plotOutput("histogram"),
-                 plotOutput("heatmap")
-                 
+                 plotlyOutput("barplot_college_placed"),
+                 plotlyOutput("pie_chart_placed"),
+                 plotlyOutput("pie_chart_unplaced"),
+                 plotlyOutput("histogram"),
+                 plotlyOutput("heatmap")
         ),
         tabPanel("Summary", verbatimTextOutput("summary"))
       )
@@ -82,7 +78,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output,session) {
+server <- function(input, output, session) {
   
   # Filter data based on user input
   filtered_data <- reactive({
@@ -93,7 +89,6 @@ server <- function(input, output,session) {
     if (!"All" %in% input$college) {
       filtered <- filtered[filtered$college_name %in% input$college, ]
     }
-    
     if (input$stream != "All") {
       filtered <- filtered[filtered$stream == input$stream, ]
     }
@@ -111,7 +106,7 @@ server <- function(input, output,session) {
   })
   
   # Bar plot for Count of Placed Students by College
-  output$barplot_college_placed <- renderPlot({
+  output$barplot_college_placed <- renderPlotly({
     req(nrow(filtered_data()) > 0)
     
     # Filter data based on input parameters
@@ -140,7 +135,8 @@ server <- function(input, output,session) {
     
     # If there's no placed data, show "No Data Available"
     if (nrow(placed_data) == 0) {
-      plot(1, type = "n", xlab = "", ylab = "", main = "No students placed with the filters selected")
+      p <- plot_ly(x = "", y = "", type = "scatter", mode = "markers", marker = list(size = 1)) %>%
+        layout(title = "No students placed with the filters selected")
     } else {
       # Create a table of counts of placed students by college
       college_counts <- table(placed_data$college_name)
@@ -153,57 +149,59 @@ server <- function(input, output,session) {
       college_counts_df <- college_counts_df[order(college_counts_df$`Placed Count`, decreasing = TRUE), ]
       
       # Create the bar plot with count labels
-      ggplot(college_counts_df, aes(x = reorder(College, `Placed Count`), y = `Placed Count`)) +
-        geom_bar(stat = "identity", fill = "skyblue") +
-        geom_text(aes(label = `Placed Count`), vjust = -0.5) +  # Add count labels above the bars
-        labs(title = "Count of Placed Students by College", x = "College", y = "Placed Count") +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      p <- plot_ly(college_counts_df, x = ~reorder(College, `Placed Count`), y = ~`Placed Count`, type = 'bar', 
+                   text = ~paste('Count: ', `Placed Count`), marker = list(color = 'skyblue')) %>%
+        layout(title = "Count of Placed Students by College", xaxis = list(title = "College"), yaxis = list(title = "Placed Count"))
     }
-  })
-  
-  # Render the bar plot
-  output$plots <- renderPlot({
-    plot(output$barplot_college_placed)
+    p
   })
   
   # Pie chart for Stream by Placement Status (Placed)
-  output$pie_chart_placed <- renderPlot({
+  output$pie_chart_placed <- renderPlotly({
     req(nrow(filtered_data()) > 0)
     stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Placed", "stream"])
     if (sum(stream_counts) > 0) {
-      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Placed)")
+      pie_chart <- plot_ly(labels = names(stream_counts), values = stream_counts, type = 'pie') %>%
+        layout(title = "Pie Chart of Stream (Placed)")
     } else {
-      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available with the filters you selected")
+      pie_chart <- plot_ly(x = "", y = "", type = "scatter", mode = "markers", marker = list(size = 1)) %>%
+        layout(title = "No Data Available with the filters you selected")
     }
+    pie_chart
   })
   
   # Pie chart for Stream by Placement Status (Unplaced)
-  output$pie_chart_unplaced <- renderPlot({
+  output$pie_chart_unplaced <- renderPlotly({
     req(nrow(filtered_data()) > 0)
     stream_counts <- table(filtered_data()[filtered_data()$placement_status == "Not Placed", "stream"])
     if (sum(stream_counts) > 0) {
-      pie(stream_counts, labels = paste(names(stream_counts), " (", round(100 * stream_counts / sum(stream_counts), 1), "%)"), main = "Pie Chart of Stream (Unplaced)")
+      pie_chart <- plot_ly(labels = names(stream_counts), values = stream_counts, type = 'pie') %>%
+        layout(title = "Pie Chart of Stream (Unplaced)")
     } else {
-      plot(1, type = "n", xlab = "", ylab = "", main = "No Data Available")
+      pie_chart <- plot_ly(x = "", y = "", type = "scatter", mode = "markers", marker = list(size = 1)) %>%
+        layout(title = "No Data Available")
     }
+    pie_chart
   })
   
   
   # Render histogram
-  output$histogram <- renderPlot({
-    ggplot(filtered_data(), aes(x = salary)) + geom_histogram(fill = "maroon", color = "black") +
+  output$histogram <- renderPlotly({
+    gg <- ggplot(filtered_data(), aes(x = salary)) + geom_histogram(fill = "maroon", color = "black") +
       labs(title = "Salary Distribution", x = "Salary", y = "Frequency")
+    ggplotly(gg)
   })
   
   
   # Render heatmap
-  output$heatmap <- renderPlot({
-    ggplot(filtered_data(), aes(x = gpa, y = years_of_experience, fill = salary)) +
+  output$heatmap <- renderPlotly({
+    gg <- ggplot(filtered_data(), aes(x = gpa, y = years_of_experience, fill = salary)) +
       geom_tile() +
       scale_fill_gradientn(colors = brewer.pal(9, "Oranges"), na.value = "grey90") +
       labs(title = "Average Salary by GPA and Years of Experience (Heatmap)",
            x = "GPA", y = "Years of Experience", fill = "Average Salary") +
       theme_minimal()
+    ggplotly(gg)
   })
   
   # Render summary statistics
