@@ -42,7 +42,7 @@ ui <- fluidPage(
           bottom: 0;
           width: 250px; /* Adjust width as needed */
           overflow-y: auto; /* Enable scrolling if content exceeds the height */
-          background-color: #f8f9fa; /* Background color of the sidebar */
+          background-color: #e0f2f1; /* Change background color to a light blue color */
           padding: 20px;
         }
         "
