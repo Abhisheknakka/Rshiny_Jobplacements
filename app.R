@@ -30,7 +30,7 @@ data <- read.csv(get_data_file_path())
 
 # Define UI
 ui <- fluidPage(
-  titlePanel("Job Placement Data Explorer"),
+  titlePanel("Employment Trends Upon Graduation Explorer"),
   tags$head(
     tags$style(
       HTML(
@@ -44,6 +44,11 @@ ui <- fluidPage(
           overflow-y: auto; /* Enable scrolling if content exceeds the height */
           background-color: #e0f2f1; /* Change background color to a light blue color */
           padding: 20px;
+        }
+        body {
+          background-image: url('https://via.placeholder.com/1920x1080'); /* 
+          background-size: cover; /* Adjust background size */
+          background-repeat: no-repeat; /* Prevent image from repeating */
         }
         "
       )
@@ -185,10 +190,14 @@ server <- function(input, output, session) {
   })
   
   
-  # Render histogram
   output$histogram <- renderPlotly({
-    gg <- ggplot(filtered_data(), aes(x = salary)) + geom_histogram(fill = "maroon", color = "black") +
+    # Filter out entries with zero salary
+    filtered_data <- filtered_data()[filtered_data()$salary != 0, ]
+    
+    gg <- ggplot(filtered_data, aes(x = salary)) + 
+      geom_histogram(fill = "lightblue", color = "black") +
       labs(title = "Salary Distribution", x = "Salary", y = "Frequency")
+    
     ggplotly(gg)
   })
   

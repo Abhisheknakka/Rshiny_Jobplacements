@@ -1,0 +1,190 @@
+---
+title: 'R Shiny Project: Employment Trends Upon Graduation'
+author: "Abhishek Nakka, Student id: 0825106"
+date: "2024-04-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **About the App:**
+
+### **Employment Trends Upon Graduation of Colleges in USA**
+
+Welcome to the Job Placement Data Explorer! This interactive Shiny app allows you to explore job placement data from the colleges of USA through various filters and visualizations.
+
+-   Click on the following link to access the ***Shiny app***:
+
+    -   [abhisheknakka.shinyapps.io/Rshiny_Jobplacements](https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/){style="color: blue;"}
+
+-   Github Repo containing the source code of the application:
+
+    -   <https://github.com/Abhisheknakka/Rshiny_Jobplacements>
+
+### **Purpose of the Application:**
+
+The application is designed to give students useful information on the placement patterns of different universities so they may make well-informed decisions regarding their academic and professional pathways through combining and displaying placement information from several US institutions.
+
+The purpose of this study is to check how important criteria such as past years of experience, major, gender, and GPA are in terms of getting hired post graduation.
+
+Additionally, the app helps students find universities that provide the best opportunity for their selected fields of study by showing placement trends and statistics, ultimately assisting in improving their career prospects and trajectories.
+
+### **Problems it Addresses:**
+
+1.  **Decision Making:** The application handles the difficulty that many students have while choosing the college and course to take to fulfill their career goals. Through the compilation and display of placement data for various universities, it enables students to properly evaluate and compare their options, leading to better informed choices.
+
+2.  **Access to Information:** Students often remain unaware of the possible results of their education when they do not have access to thorough placement data. This software closes that gap by giving students access to comprehensive placement data for several universities on a single, consolidated platform, guaranteeing increased openness and accessibility to vital information.
+
+3.  **Transparency in Education:** Transparency in the education system is crucial for fostering trust and accountability. By offering transparent placement data, the application promotes accountability among educational institutions and helps students make decisions based on real-world outcomes rather than hearsay or conjecture.
+
+4.  **Industry Alignment:** Colleges with solid industry ties and a history of putting graduates in respectable businesses are frequently given top priority by prospective students. The application helps students match their educational choices with their career aspirations, boosting the likelihood of success in the labor market. It does this by identifying universities with outstanding placement rates in relevant areas.
+
+5.  **Career Planning:** Students must have access to relevant information and insights regarding job market trends and industry statistics in order to engage in effective career planning. By giving students useful information about placement trends, pay ranges, and other relevant criteria, this application gives students the skills they need to strategically plan their careers.
+
+### **About Dataset:**
+
+The dataset used in this application is picked from kaggle - [Job-Placement-Dataset](https://www.kaggle.com/datasets/mahad049/job-placement-dataset) which contains comprehensive information about Bachelor's degree graduates from various universities in the USA and their placement status. It serves as a valuable resource for understanding the employment outcomes of recent graduates and provides insights into placement trends across different fields of study and universities.
+
+### **Instructions to run the App:**
+
+**1. Access the App:**
+
+-   Click on the following link to access the Shiny app: [Employment Trends Upon Graduation](https://abhisheknakka.shinyapps.io/Rshiny_Jobplacements/)
+
+-   Wait for the app to load in your web browser.
+
+**2. Explore the Data:**
+
+-   Once loaded, you'll see the title "Employment Trends Upon Graduation" at the top.
+
+-   Use the options provided to filter and visualize the job placement data. The dashboard is built dynamic, once the filters are selected, the graphs will auto update.
+
+**3. Inputs:**
+
+-   **College (Dropdown with Multiple Selection):** Select one or multiple colleges. It has multiple selection options.
+
+-   **Gender (Dropdown):** Filter the data based on gender. (Only two values: Male and Female)
+
+-   **Stream (Dropdown):** Filter the data based on the stream of study. (Example: Computer Science, Electrical Engineering)
+
+-   **Age Range (Slider):** Specify a range of ages to filter the data.
+
+-   **Salary Range (Slider):** Specify a range of salaries to filter the data.
+
+-   **Placement Status (Dropdown):** Filter the data based on placement status.
+
+-   **Reset Filters (Button):** Click to reset all filters to their default values.
+
+**4. Selection:**
+
+-   **Dropdowns:** Click on the dropdown menu and select the desired option.
+
+-   **Slider:** Drag the handles of the slider to adjust the range.
+
+-   **Multiple Selection Dropdown (College):** Hold "Ctrl" (or "Cmd" on Mac) while clicking to select multiple colleges.
+
+**5. Panels:**
+
+-   **Plots Panel:** Contains various visualizations based on the filtered data.
+
+-   **Table Panel:** Displays the filtered data in a table format. you can search any candidate or stream in the search bar on top.
+
+-   **Summary Panel:** Displays summary statistics of the filtered data of each field.
+
+**6. Use Filters:**
+
+-   Utilize filter options on the left sidebar to customize the displayed data.
+
+**7. View Tables and Plots:**
+
+-   Switch between tabs ("Table", "Plots", "Summary") to view data tables, visualizations, and summary statistics.
+
+**8. Reset Filters:**
+
+-   Click the "Reset Filters" button to revert to the original unfiltered data.
+
+**9. Explore Summary Statistics:**
+
+-   Access summary statistics on the "Summary" tab, including mean, median, minimum, maximum, and quartiles.
+
+**10. Close the App:**
+
+-   Simply close the web browser tab to exit the Shiny app.
+
+This dashboard is a powerful tool designed to provide users with comprehensive insights into the employment outcomes graduates from various universities in the USA. With its user-friendly interface and interactive features, the application offers a range of functionalists to explore and analyze placement trends, compare placement rates among universities, and investigate factors influencing employment success. Below are the key features of the application outlined in detail:
+
+### Plots for Data Visualization:
+
+The application offers various plots for visualizing the filtered data, allowing users to explore placement trends and patterns. These include:
+
+1.  **Bar Plot for Count of Placed Students by College:**
+    -   This bar plot visualizes the count of placed students for each selected college, enabling users to compare placement rates among different universities.
+2.  **Pie Charts for Stream (Field of Study) by Placement Status:**
+    -   Separate pie charts illustrate the distribution of placed and unplaced students across different fields of study. These visualizations provide insights into placement rates within specific academic disciplines.
+3.  **Histogram for Salary Distribution:**
+    -   The histogram displays the distribution of salaries earned by graduates upon placement, allowing users to identify common salary ranges and variations.
+4.  **Heatmap for Average Salary by years of Experience:**
+    -   The boxplot compares the distribution of salaries between placed and unplaced students, facilitating the analysis of salary distributions based on placement status.
+
+### Interactive Data Table:
+
+An interactive data table within the program updates dynamically in response to the user's chosen filters. The table offers comprehensive details about the filtered dataset, including the records of specific students. The table is simple to navigate, allowing users to explore individual data points and obtain insights into employment results.
+
+### Summary Statistics:
+
+The application provides summary statistics of the filtered data, including mean, median, minimum, maximum, and quartiles for numerical variables. These statistics offer insights into the overall distribution and central tendencies of the dataset, aiding in data interpretation and analysis.
+
+### Reset Filters Button:
+
+Users can reset all filters to their default values by clicking the "Reset Filters" button. This feature allows for easy exploration of the dataset without manually adjusting each filter, enhancing user experience and efficiency.
+
+In summary, the dashboard offers a comprehensive suite of features to empower users in exploring and analyzing job placement data effectively. From interactive filtering options to insightful visualizations and summary statistics, the application provides valuable tools for gaining actionable insights into employment outcomes for Bachelor's degree graduates.
+
+### **Literature Review:**
+
+1.  **"Factors Influencing College Choice: A Literature Review"** (Jones, 2016):
+
+    -   This study explores the various factors that influence students' decisions when choosing a college. It highlights the importance of placement statistics and outcomes in shaping students' perceptions and choices.
+
+2.  **"The Role of Career Services in Student Recruitment and Retention"** (Smith & Brown, 2018):
+
+    -   The research examines the impact of career services on student recruitment and retention. It emphasizes the significance of accurate placement data in attracting prospective students and retaining current ones.
+
+3.  **"Data-Driven Decision Making in Higher Education"** (Johnson et al., 2019):
+
+    -   This paper discusses the importance of data-driven decision-making in higher education institutions. It emphasizes the need for colleges to leverage placement data to improve student outcomes and enhance institutional effectiveness.
+
+### **Future Scope:**
+
+#### 1. Integration with Machine Learning Models
+
+-   **Predictive Analytics**: Explore the integration of machine learning models to predict future placement trends based on historical data. Through the use of algorithms like clustering, regression, or classification, the application can offer students chances and insights into new trends.
+
+-   **Recommendation Engine**: Develop a recommendation engine that suggests colleges and courses based on students' academic performance, career aspirations, and placement preferences. This personalized approach enhances user engagement and assists students in making informed decisions tailored to their individual needs.
+
+#### 2. Alumni Network Integration
+
+-   **Alumni Engagement**: Provide engagement with alumni networks by integrating alumni profiles and testimonials into the application. This feature allows current students to connect with alumni from their alma mater, gain insights into career paths, and access mentorship opportunities.
+
+-   **Alumni Placement Data**: Incorporate alumni placement data to provide longitudinal insights into career trajectories and outcomes. By tracking alumni career progression, the application offers valuable insights into the long-term impact of education on employment success.
+
+#### 3. Skill Development Resources
+
+-   **Skill Assessment Tools**: Integrate skill assessment tools to help students evaluate their strengths and weaknesses relative to industry requirements. By identifying skill gaps and recommending relevant resources, the application assists students in developing employability skills and enhancing their marketability.
+
+-   **Online Learning Platforms**: Partner with online learning platforms to provide access to courses, certifications, and learning resources directly through the application. This collaboration expands students' educational opportunities and supports lifelong learning initiatives.
+
+### **Conclusion:**
+
+To conclude, the application is essential in helping students overcome the difficulties they have when attempting to make sense of the complicated world of postsecondary education and career planning. It enables students to make decisions that are in line with their aims and aspirations by giving them access to clear and thorough placement data. Furthermore, the application highlights the significance of industry-academia collaboration and data-driven decision-making in improving students' employability and promoting successful transitions from education to employment by utilizing insights from academic research and literature. All things considered, the app is a great tool for teachers and students.
+
+### **References:**
+
+1.  S. Barthorpe and M. Hall, "A collaborative approach to placement preparation and career planning for university students: a case study."
+2.  R. Brooks and P. L. Youngson, "Undergraduate work placements: an analysis of the effects on career progression," 2011.
+3.  K. Jasko, J. Pyrkosz-Pacyna, G. Czarnek, K. Dukała, and M. Szastok, "The STEM Graduate: Immediately after Graduation, Men and Women Already Differ in Job Outcomes," 2020.
+4.  R Graph Gallery, "Data Visualization with R." [Online]. Available: <https://r-graph-gallery.com/>.
+
+### 
