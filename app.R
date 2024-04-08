@@ -5,7 +5,7 @@ library(ggplot2)
 library(dplyr)
 library(rsconnect)
 library(RColorBrewer)
-library(plotly)  # For interactive plots
+library(plotly) 
 
 # Define function to check if running on shinyapps.io
 is_shinyapps <- function() {
@@ -40,15 +40,15 @@ ui <- fluidPage(
           top: 50px;
           left: 0;
           bottom: 0;
-          width: 250px; /* Adjust width as needed */
-          overflow-y: auto; /* Enable scrolling if content exceeds the height */
-          background-color: #e0f2f1; /* Change background color to a light blue color */
+          width: 250px; 
+          overflow-y: auto;
+          background-color: #e0f2f1; /* background color */
           padding: 20px;
         }
         body {
-          background-image: url('https://via.placeholder.com/1920x1080'); /* 
-          background-size: cover; /* Adjust background size */
-          background-repeat: no-repeat; /* Prevent image from repeating */
+          background-image: url('https://via.placeholder.com/1920x1080'); 
+          background-size: cover; 
+          background-repeat: no-repeat; 
         }
         "
       )
